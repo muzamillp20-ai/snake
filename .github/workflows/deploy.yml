@@ -1,35 +1,26 @@
 # GitHub Actions workflow for Mahira Mansha Snake Crash
 # Repository: https://github.com/muzamillp20-ai/snake
-# Deploys to GitHub Pages automatically on push to main
+# Expected URL: https://muzamillp20-ai.github.io/snake/
 
 name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-  # Runs on pull requests targeting main (build validation only, no deploy)
   pull_request:
     branches: ["main"]
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     name: Build Application
     runs-on: ubuntu-latest
@@ -51,13 +42,32 @@ jobs:
       - name: Verify build output
         run: |
           if [ ! -f "./dist/index.html" ]; then
-            echo "ERROR: dist/index.html not found after build!"
+            echo "❌ ERROR: dist/index.html not found after build!"
             ls -la dist/ || echo "dist/ directory does not exist"
             exit 1
           fi
           echo "✅ Build output verified: dist/index.html exists"
           echo "📦 Build contents:"
           ls -la dist/
+          echo ""
+          echo "📄 Checking index.html for correct base path..."
+          if grep -q "/snake/" dist/index.html; then
+            echo "✅ Base path /snake/ found in index.html"
+          else
+            echo "⚠️  Warning: Base path /snake/ not found in index.html"
+          fi
+
+      - name: Check Pages configuration
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "🔍 Checking if GitHub Pages is configured..."
+          echo ""
+          echo "⚠️  IMPORTANT: If this step fails, you need to:"
+          echo "1. Go to https://github.com/muzamillp20-ai/snake/settings/pages"
+          echo "2. Under 'Build and deployment', set Source to: GitHub Actions"
+          echo "3. Save the setting"
+          echo "4. Re-run this workflow"
+          echo ""
 
       - name: Setup Pages
         if: github.event_name != 'pull_request'
@@ -69,7 +79,6 @@ jobs:
         with:
           path: ./dist
 
-  # Deployment job (only on push to main, not on PRs)
   deploy:
     name: Deploy to GitHub Pages
     if: github.event_name != 'pull_request'
