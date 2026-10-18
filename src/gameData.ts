@@ -3,82 +3,198 @@ export interface Position {
   y: number;
 }
 
-export interface SnakeType {
-  id: number;
+export interface PowerUp {
+  pos: Position;
+  type: 'speed' | 'slow' | 'golden' | 'shield';
+  emoji: string;
+  points: number;
+  duration?: number;
+}
+
+export interface SnakeSkin {
+  id: string;
   name: string;
   emoji: string;
-  color: string;
+  bodyColor: string;
   headColor: string;
+  glowColor: string;
+  segmentStyle: 'round' | 'square' | 'diamond';
   description: string;
-  unlockLevel: number;
+  unlockLevels: number;
 }
 
-export interface Level {
+export interface BoardTheme {
+  id: string;
+  name: string;
+  emoji: string;
+  bgGradient: string;
+  gridColor: string;
+  borderColor: string;
+  accentColor: string;
+  unlockLevels: number;
+}
+
+export interface LevelConfig {
   id: number;
   name: string;
-  speed: number;
   gridSize: number;
-  obstacles: Position[];
+  baseSpeed: number;
   targetScore: number;
-  foodEmoji: string;
-  bgColor: string;
-  borderColor: string;
+  obstacles: Position[];
+  powerUpChance: number;
+  boardThemeId: string;
+  completionMessage: string;
 }
 
-export const SNAKE_TYPES: SnakeType[] = [
-  { id: 1, name: "Muzamill Bhaiya", emoji: "🐍", color: "#00ff88", headColor: "#00ffaa", description: "The Champion Snake!", unlockLevel: 0 },
-  { id: 2, name: "Cobra King", emoji: "🐍", color: "#ff4444", headColor: "#ff6666", description: "Venomous and deadly", unlockLevel: 5 },
-  { id: 3, name: "Python Master", emoji: "🐍", color: "#4444ff", headColor: "#6666ff", description: "The mighty constrictor", unlockLevel: 10 },
-  { id: 4, name: "Viper Shadow", emoji: "🐍", color: "#ff44ff", headColor: "#ff66ff", description: "Fast and stealthy", unlockLevel: 15 },
-  { id: 5, name: "Anaconda Giant", emoji: "🐍", color: "#ffaa00", headColor: "#ffcc00", description: "The largest snake", unlockLevel: 20 },
-  { id: 6, name: "Mamba Express", emoji: "🐍", color: "#00ffff", headColor: "#66ffff", description: "World's fastest snake", unlockLevel: 25 },
-  { id: 7, name: "Rattlesnake", emoji: "🐍", color: "#ff8800", headColor: "#ffaa00", description: "Hear the rattle!", unlockLevel: 30 },
-  { id: 8, name: "Rainbow Serpent", emoji: "🌈", color: "#ff00ff", headColor: "#ffff00", description: "Legendary rainbow snake", unlockLevel: 35 },
-  { id: 9, name: "Dragon Snake", emoji: "🐉", color: "#ff0000", headColor: "#ff4400", description: "Mythical dragon snake", unlockLevel: 40 },
-  { id: 10, name: "Cosmic Boa", emoji: "✨", color: "#aa00ff", headColor: "#cc44ff", description: "From outer space!", unlockLevel: 41 },
+export const SNAKE_SKINS: SnakeSkin[] = [
+  { id: 'classic', name: 'Classic Green', emoji: '🐍', bodyColor: '#22c55e', headColor: '#4ade80', glowColor: '#22c55e80', segmentStyle: 'round', description: 'The original snake', unlockLevels: 0 },
+  { id: 'neon', name: 'Neon Electric', emoji: '⚡', bodyColor: '#06b6d4', headColor: '#22d3ee', glowColor: '#06b6d480', segmentStyle: 'round', description: 'Electric blue neon glow', unlockLevels: 3 },
+  { id: 'fire', name: 'Fire Snake', emoji: '🔥', bodyColor: '#ef4444', headColor: '#f97316', glowColor: '#ef444480', segmentStyle: 'diamond', description: 'Blazing fire serpent', unlockLevels: 6 },
+  { id: 'ice', name: 'Ice Snake', emoji: '❄️', bodyColor: '#3b82f6', headColor: '#93c5fd', glowColor: '#3b82f680', segmentStyle: 'round', description: 'Frozen ice serpent', unlockLevels: 9 },
+  { id: 'golden', name: 'Golden Snake', emoji: '👑', bodyColor: '#eab308', headColor: '#fde047', glowColor: '#eab30880', segmentStyle: 'diamond', description: 'Royal golden snake', unlockLevels: 12 },
+  { id: 'rainbow', name: 'Rainbow Snake', emoji: '🌈', bodyColor: '#a855f7', headColor: '#e879f9', glowColor: '#a855f780', segmentStyle: 'round', description: 'Colorful rainbow serpent', unlockLevels: 16 },
+  { id: 'shadow', name: 'Shadow Snake', emoji: '👻', bodyColor: '#6366f1', headColor: '#818cf8', glowColor: '#6366f180', segmentStyle: 'square', description: 'Dark shadow serpent', unlockLevels: 20 },
+  { id: 'cyber', name: 'Cyber Snake', emoji: '🤖', bodyColor: '#14b8a6', headColor: '#2dd4bf', glowColor: '#14b8a680', segmentStyle: 'square', description: 'Digital cyber snake', unlockLevels: 25 },
+  { id: 'nature', name: 'Nature Snake', emoji: '🌿', bodyColor: '#16a34a', headColor: '#86efac', glowColor: '#16a34a80', segmentStyle: 'round', description: 'Forest nature snake', unlockLevels: 30 },
+  { id: 'royal', name: 'Royal Snake', emoji: '💎', bodyColor: '#7c3aed', headColor: '#c084fc', glowColor: '#7c3aed80', segmentStyle: 'diamond', description: 'MUZAMIL\'s Royal Snake', unlockLevels: 35 },
 ];
 
-export const LEVELS: Level[] = [
-  { id: 0, name: "Default Game", speed: 150, gridSize: 20, obstacles: [], targetScore: 5, foodEmoji: "👧", bgColor: "#1a1a2e", borderColor: "#e94560" },
-  { id: 1, name: "Level 1 - Easy Start", speed: 145, gridSize: 20, obstacles: [], targetScore: 5, foodEmoji: "👧", bgColor: "#1a1a2e", borderColor: "#e94560" },
-  { id: 2, name: "Level 2 - Getting Warmer", speed: 140, gridSize: 20, obstacles: [], targetScore: 6, foodEmoji: "👧", bgColor: "#1a2a2e", borderColor: "#e9a560" },
-  { id: 3, name: "Level 3 - Speed Up", speed: 135, gridSize: 20, obstacles: [], targetScore: 6, foodEmoji: "👧", bgColor: "#1a1a3e", borderColor: "#60e960" },
-  { id: 4, name: "Level 4 - First Obstacles", speed: 130, gridSize: 20, obstacles: [{x:10,y:5},{x:10,y:6},{x:10,y:7},{x:10,y:8}], targetScore: 7, foodEmoji: "👧", bgColor: "#2a1a2e", borderColor: "#e960e9" },
-  { id: 5, name: "Level 5 - Walls Rising", speed: 125, gridSize: 20, obstacles: [{x:5,y:5},{x:5,y:6},{x:5,y:7},{x:15,y:5},{x:15,y:6},{x:15,y:7}], targetScore: 7, foodEmoji: "👧", bgColor: "#1a2a3e", borderColor: "#60e9e9" },
-  { id: 6, name: "Level 6 - Maze Begin", speed: 120, gridSize: 20, obstacles: [{x:3,y:3},{x:4,y:3},{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:13,y:3},{x:14,y:3},{x:15,y:3},{x:16,y:3},{x:17,y:3}], targetScore: 8, foodEmoji: "👧", bgColor: "#2a2a1e", borderColor: "#e9e960" },
-  { id: 7, name: "Level 7 - Corridors", speed: 118, gridSize: 20, obstacles: [{x:5,y:0},{x:5,y:1},{x:5,y:2},{x:5,y:3},{x:5,y:4},{x:15,y:15},{x:15,y:16},{x:15,y:17},{x:15,y:18},{x:15,y:19}], targetScore: 8, foodEmoji: "👧", bgColor: "#1e2a2a", borderColor: "#60e9a5" },
-  { id: 8, name: "Level 8 - Cross Pattern", speed: 115, gridSize: 20, obstacles: [{x:10,y:3},{x:10,y:4},{x:10,y:5},{x:10,y:6},{x:10,y:7},{x:3,y:10},{x:4,y:10},{x:5,y:10},{x:6,y:10},{x:7,y:10},{x:13,y:10},{x:14,y:10},{x:15,y:10},{x:16,y:10},{x:17,y:10}], targetScore: 9, foodEmoji: "👧", bgColor: "#2e1a2a", borderColor: "#e960a5" },
-  { id: 9, name: "Level 9 - Box Room", speed: 112, gridSize: 20, obstacles: [{x:6,y:6},{x:7,y:6},{x:8,y:6},{x:9,y:6},{x:10,y:6},{x:11,y:6},{x:12,y:6},{x:13,y:6},{x:6,y:13},{x:7,y:13},{x:8,y:13},{x:9,y:13},{x:10,y:13},{x:11,y:13},{x:12,y:13},{x:13,y:13},{x:6,y:7},{x:6,y:8},{x:6,y:9},{x:6,y:10},{x:6,y:11},{x:6,y:12},{x:13,y:7},{x:13,y:8},{x:13,y:9},{x:13,y:10},{x:13,y:11},{x:13,y:12}], targetScore: 10, foodEmoji: "👧", bgColor: "#1a2e2a", borderColor: "#60e9e9" },
-  { id: 10, name: "Level 10 - Half Way!", speed: 110, gridSize: 20, obstacles: [{x:4,y:4},{x:5,y:4},{x:6,y:4},{x:4,y:5},{x:4,y:6},{x:14,y:4},{x:15,y:4},{x:16,y:4},{x:16,y:5},{x:16,y:6},{x:4,y:14},{x:4,y:15},{x:4,y:16},{x:5,y:16},{x:6,y:16},{x:14,y:16},{x:15,y:16},{x:16,y:16},{x:16,y:15},{x:16,y:14}], targetScore: 10, foodEmoji: "👧", bgColor: "#2e2e1a", borderColor: "#e9e960" },
-  { id: 11, name: "Level 11 - Zigzag", speed: 108, gridSize: 20, obstacles: [{x:2,y:3},{x:3,y:3},{x:4,y:3},{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:8,y:3},{x:9,y:3},{x:10,y:3},{x:11,y:3},{x:12,y:3},{x:13,y:3},{x:14,y:3},{x:15,y:3},{x:16,y:3},{x:17,y:3},{x:18,y:3}], targetScore: 11, foodEmoji: "👧", bgColor: "#1a1a3e", borderColor: "#6060e9" },
-  { id: 12, name: "Level 12 - Tunnel", speed: 105, gridSize: 20, obstacles: [{x:0,y:8},{x:1,y:8},{x:2,y:8},{x:3,y:8},{x:4,y:8},{x:5,y:8},{x:6,y:8},{x:7,y:8},{x:8,y:8},{x:11,y:8},{x:12,y:8},{x:13,y:8},{x:14,y:8},{x:15,y:8},{x:16,y:8},{x:17,y:8},{x:18,y:8},{x:19,y:8}], targetScore: 11, foodEmoji: "👧", bgColor: "#2a1a1a", borderColor: "#e96060" },
-  { id: 13, name: "Level 13 - Spiral Start", speed: 102, gridSize: 20, obstacles: [{x:3,y:3},{x:4,y:3},{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:8,y:3},{x:9,y:3},{x:10,y:3},{x:11,y:3},{x:12,y:3},{x:13,y:3},{x:14,y:3},{x:15,y:3},{x:16,y:3}], targetScore: 12, foodEmoji: "👧", bgColor: "#1a2e1a", borderColor: "#60e960" },
-  { id: 14, name: "Level 14 - Diamond", speed: 100, gridSize: 20, obstacles: [{x:10,y:3},{x:9,y:4},{x:11,y:4},{x:8,y:5},{x:12,y:5},{x:7,y:6},{x:13,y:6},{x:6,y:7},{x:14,y:7},{x:5,y:8},{x:15,y:8},{x:6,y:9},{x:14,y:9},{x:7,y:10},{x:13,y:10},{x:8,y:11},{x:12,y:11},{x:9,y:12},{x:11,y:12},{x:10,y:13}], targetScore: 12, foodEmoji: "👧", bgColor: "#2e1a2e", borderColor: "#e960e9" },
-  { id: 15, name: "Level 15 - Quarter Mark", speed: 98, gridSize: 20, obstacles: [{x:5,y:5},{x:6,y:5},{x:7,y:5},{x:8,y:5},{x:5,y:6},{x:5,y:7},{x:5,y:8},{x:5,y:9},{x:14,y:10},{x:15,y:10},{x:14,y:11},{x:14,y:12},{x:14,y:13},{x:14,y:14},{x:15,y:14},{x:16,y:14},{x:17,y:14},{x:18,y:14}], targetScore: 13, foodEmoji: "👧", bgColor: "#1a1a2e", borderColor: "#e9a560" },
-  { id: 16, name: "Level 16 - Double Wall", speed: 95, gridSize: 20, obstacles: [{x:8,y:2},{x:8,y:3},{x:8,y:4},{x:8,y:5},{x:8,y:6},{x:8,y:7},{x:8,y:8},{x:12,y:11},{x:12,y:12},{x:12,y:13},{x:12,y:14},{x:12,y:15},{x:12,y:16},{x:12,y:17},{x:12,y:18}], targetScore: 13, foodEmoji: "👧", bgColor: "#2a2a2a", borderColor: "#aaaaaa" },
-  { id: 17, name: "Level 17 - Scattered", speed: 92, gridSize: 20, obstacles: [{x:3,y:3},{x:7,y:5},{x:12,y:3},{x:16,y:7},{x:4,y:10},{x:9,y:12},{x:15,y:14},{x:6,y:16},{x:11,y:17},{x:17,y:11}], targetScore: 14, foodEmoji: "👧", bgColor: "#1a2e2e", borderColor: "#60e9e9" },
-  { id: 18, name: "Level 18 - Checkerboard", speed: 90, gridSize: 20, obstacles: [{x:4,y:4},{x:6,y:4},{x:8,y:4},{x:10,y:4},{x:12,y:4},{x:14,y:4},{x:5,y:5},{x:7,y:5},{x:9,y:5},{x:11,y:5},{x:13,y:5},{x:15,y:5},{x:4,y:6},{x:6,y:6},{x:8,y:6},{x:10,y:6},{x:12,y:6},{x:14,y:6}], targetScore: 14, foodEmoji: "👧", bgColor: "#2e1a1a", borderColor: "#e96060" },
-  { id: 19, name: "Level 19 - Labyrinth", speed: 88, gridSize: 20, obstacles: [{x:2,y:2},{x:3,y:2},{x:4,y:2},{x:5,y:2},{x:6,y:2},{x:6,y:3},{x:6,y:4},{x:6,y:5},{x:6,y:6},{x:14,y:2},{x:15,y:2},{x:16,y:2},{x:17,y:2},{x:14,y:3},{x:14,y:4},{x:14,y:5},{x:14,y:6}], targetScore: 15, foodEmoji: "👧", bgColor: "#1a1a1a", borderColor: "#e9e9e9" },
-  { id: 20, name: "Level 20 - Halfway Hero!", speed: 85, gridSize: 20, obstacles: [{x:5,y:5},{x:6,y:5},{x:7,y:5},{x:8,y:5},{x:5,y:5},{x:5,y:6},{x:5,y:7},{x:5,y:8},{x:5,y:9},{x:14,y:10},{x:15,y:10},{x:16,y:10},{x:14,y:11},{x:14,y:12},{x:14,y:13},{x:14,y:14},{x:15,y:14},{x:16,y:14},{x:17,y:14}], targetScore: 15, foodEmoji: "👧", bgColor: "#2e2e1a", borderColor: "#e9e960" },
-  { id: 21, name: "Level 21 - Speed Demon", speed: 82, gridSize: 20, obstacles: [{x:3,y:8},{x:4,y:8},{x:5,y:8},{x:6,y:8},{x:7,y:8},{x:8,y:8},{x:11,y:11},{x:12,y:11},{x:13,y:11},{x:14,y:11},{x:15,y:11},{x:16,y:11}], targetScore: 16, foodEmoji: "👧", bgColor: "#1a2a1a", borderColor: "#60e960" },
-  { id: 22, name: "Level 22 - Fortress", speed: 80, gridSize: 20, obstacles: [{x:7,y:7},{x:8,y:7},{x:9,y:7},{x:10,y:7},{x:11,y:7},{x:12,y:7},{x:7,y:8},{x:7,y:9},{x:7,y:10},{x:7,y:11},{x:7,y:12},{x:12,y:8},{x:12,y:9},{x:12,y:10},{x:12,y:11},{x:12,y:12},{x:8,y:12},{x:9,y:12},{x:10,y:12},{x:11,y:12}], targetScore: 16, foodEmoji: "👧", bgColor: "#2a1a2a", borderColor: "#e960e9" },
-  { id: 23, name: "Level 23 - Gauntlet", speed: 78, gridSize: 20, obstacles: [{x:4,y:2},{x:4,y:3},{x:4,y:4},{x:4,y:5},{x:4,y:6},{x:8,y:13},{x:8,y:14},{x:8,y:15},{x:8,y:16},{x:8,y:17},{x:12,y:2},{x:12,y:3},{x:12,y:4},{x:12,y:5},{x:12,y:6},{x:16,y:13},{x:16,y:14},{x:16,y:15},{x:16,y:16},{x:16,y:17}], targetScore: 17, foodEmoji: "👧", bgColor: "#1a1a2e", borderColor: "#6060e9" },
-  { id: 24, name: "Level 24 - Maze Master", speed: 75, gridSize: 20, obstacles: [{x:2,y:2},{x:3,y:2},{x:4,y:2},{x:5,y:2},{x:2,y:3},{x:2,y:4},{x:2,y:5},{x:2,y:6},{x:4,y:4},{x:5,y:4},{x:6,y:4},{x:7,y:4},{x:8,y:4},{x:14,y:14},{x:15,y:14},{x:16,y:14},{x:17,y:14},{x:17,y:15},{x:17,y:16},{x:17,y:17},{x:15,y:17},{x:14,y:17},{x:13,y:17},{x:12,y:17}], targetScore: 17, foodEmoji: "👧", bgColor: "#2e1a1a", borderColor: "#e96060" },
-  { id: 25, name: "Level 25 - Quarter Final!", speed: 72, gridSize: 20, obstacles: [{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:8,y:3},{x:9,y:3},{x:10,y:3},{x:11,y:3},{x:12,y:3},{x:13,y:3},{x:14,y:3},{x:5,y:16},{x:6,y:16},{x:7,y:16},{x:8,y:16},{x:9,y:16},{x:10,y:16},{x:11,y:16},{x:12,y:16},{x:13,y:16},{x:14,y:16}], targetScore: 18, foodEmoji: "👧", bgColor: "#1a2e1a", borderColor: "#60e960" },
-  { id: 26, name: "Level 26 - Tight Squeeze", speed: 70, gridSize: 20, obstacles: [{x:6,y:4},{x:7,y:4},{x:8,y:4},{x:9,y:4},{x:10,y:4},{x:11,y:4},{x:12,y:4},{x:13,y:4},{x:6,y:15},{x:7,y:15},{x:8,y:15},{x:9,y:15},{x:10,y:15},{x:11,y:15},{x:12,y:15},{x:13,y:15},{x:6,y:5},{x:6,y:6},{x:6,y:7},{x:13,y:5},{x:13,y:6},{x:13,y:7},{x:6,y:12},{x:6,y:13},{x:6,y:14},{x:13,y:12},{x:13,y:13},{x:13,y:14}], targetScore: 18, foodEmoji: "👧", bgColor: "#2a2a1a", borderColor: "#e9e960" },
-  { id: 27, name: "Level 27 - Snake Pit", speed: 68, gridSize: 20, obstacles: [{x:3,y:3},{x:4,y:4},{x:5,y:5},{x:6,y:6},{x:7,y:7},{x:8,y:8},{x:11,y:11},{x:12,y:12},{x:13,y:13},{x:14,y:14},{x:15,y:15},{x:16,y:16},{x:16,y:3},{x:15,y:4},{x:14,y:5},{x:13,y:6},{x:12,y:7},{x:11,y:8},{x:8,y:11},{x:7,y:12},{x:6,y:13},{x:5,y:14},{x:4,y:15},{x:3,y:16}], targetScore: 19, foodEmoji: "👧", bgColor: "#1a1a2e", borderColor: "#e94560" },
-  { id: 28, name: "Level 28 - Nightmare", speed: 65, gridSize: 20, obstacles: [{x:2,y:2},{x:3,y:2},{x:4,y:2},{x:5,y:2},{x:6,y:2},{x:7,y:2},{x:8,y:2},{x:9,y:2},{x:10,y:2},{x:11,y:2},{x:12,y:2},{x:13,y:2},{x:14,y:2},{x:15,y:2},{x:16,y:2},{x:17,y:2},{x:2,y:17},{x:3,y:17},{x:4,y:17},{x:5,y:17},{x:6,y:17},{x:7,y:17},{x:8,y:17},{x:9,y:17},{x:10,y:17},{x:11,y:17},{x:12,y:17},{x:13,y:17},{x:14,y:17},{x:15,y:17},{x:16,y:17},{x:17,y:17}], targetScore: 19, foodEmoji: "👧", bgColor: "#2e1a2e", borderColor: "#e960e9" },
-  { id: 29, name: "Level 29 - Chaos Zone", speed: 62, gridSize: 20, obstacles: [{x:5,y:5},{x:6,y:6},{x:7,y:5},{x:8,y:6},{x:9,y:5},{x:10,y:6},{x:11,y:5},{x:12,y:6},{x:13,y:5},{x:14,y:6},{x:5,y:13},{x:6,y:14},{x:7,y:13},{x:8,y:14},{x:9,y:13},{x:10,y:14},{x:11,y:13},{x:12,y:14},{x:13,y:13},{x:14,y:14}], targetScore: 20, foodEmoji: "👧", bgColor: "#1a2e2e", borderColor: "#60e9e9" },
-  { id: 30, name: "Level 30 - Elite Zone!", speed: 60, gridSize: 20, obstacles: [{x:4,y:4},{x:5,y:4},{x:6,y:4},{x:7,y:4},{x:4,y:5},{x:4,y:6},{x:4,y:7},{x:15,y:4},{x:16,y:4},{x:15,y:5},{x:15,y:6},{x:15,y:7},{x:4,y:12},{x:4,y:13},{x:4,y:14},{x:4,y:15},{x:5,y:15},{x:6,y:15},{x:7,y:15},{x:15,y:12},{x:15,y:13},{x:15,y:14},{x:15,y:15},{x:14,y:15},{x:13,y:15},{x:12,y:15}], targetScore: 20, foodEmoji: "👧", bgColor: "#2e2e1a", borderColor: "#e9e960" },
-  { id: 31, name: "Level 31 - Lightning", speed: 58, gridSize: 20, obstacles: [{x:10,y:2},{x:10,y:3},{x:10,y:4},{x:10,y:5},{x:10,y:6},{x:10,y:7},{x:10,y:8},{x:2,y:10},{x:3,y:10},{x:4,y:10},{x:5,y:10},{x:6,y:10},{x:7,y:10},{x:8,y:10},{x:12,y:10},{x:13,y:10},{x:14,y:10},{x:15,y:10},{x:16,y:10},{x:17,y:10},{x:10,y:12},{x:10,y:13},{x:10,y:14},{x:10,y:15},{x:10,y:16},{x:10,y:17},{x:10,y:18}], targetScore: 21, foodEmoji: "👧", bgColor: "#1a1a1a", borderColor: "#ffff00" },
-  { id: 32, name: "Level 32 - Inferno", speed: 55, gridSize: 20, obstacles: [{x:3,y:3},{x:4,y:3},{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:8,y:3},{x:9,y:3},{x:10,y:3},{x:11,y:3},{x:12,y:3},{x:13,y:3},{x:14,y:3},{x:15,y:3},{x:16,y:3},{x:3,y:16},{x:4,y:16},{x:5,y:16},{x:6,y:16},{x:7,y:16},{x:8,y:16},{x:9,y:16},{x:10,y:16},{x:11,y:16},{x:12,y:16},{x:13,y:16},{x:14,y:16},{x:15,y:16},{x:16,y:16}], targetScore: 21, foodEmoji: "👧", bgColor: "#2e0a0a", borderColor: "#ff4400" },
-  { id: 33, name: "Level 33 - Blizzard", speed: 52, gridSize: 20, obstacles: [{x:2,y:5},{x:3,y:5},{x:4,y:5},{x:5,y:5},{x:6,y:5},{x:7,y:5},{x:8,y:5},{x:9,y:5},{x:10,y:5},{x:11,y:5},{x:12,y:5},{x:13,y:5},{x:14,y:5},{x:15,y:5},{x:16,y:5},{x:17,y:5},{x:2,y:14},{x:3,y:14},{x:4,y:14},{x:5,y:14},{x:6,y:14},{x:7,y:14},{x:8,y:14},{x:9,y:14},{x:10,y:14},{x:11,y:14},{x:12,y:14},{x:13,y:14},{x:14,y:14},{x:15,y:14},{x:16,y:14},{x:17,y:14}], targetScore: 22, foodEmoji: "👧", bgColor: "#0a1a2e", borderColor: "#00aaff" },
-  { id: 34, name: "Level 34 - Volcano", speed: 50, gridSize: 20, obstacles: [{x:8,y:4},{x:9,y:4},{x:10,y:4},{x:11,y:4},{x:12,y:4},{x:7,y:5},{x:13,y:5},{x:6,y:6},{x:14,y:6},{x:5,y:7},{x:15,y:7},{x:4,y:8},{x:16,y:8},{x:3,y:9},{x:17,y:9},{x:4,y:10},{x:16,y:10},{x:5,y:11},{x:15,y:11},{x:6,y:12},{x:14,y:12},{x:7,y:13},{x:13,y:13},{x:8,y:14},{x:9,y:14},{x:10,y:14},{x:11,y:14},{x:12,y:14}], targetScore: 22, foodEmoji: "👧", bgColor: "#2e1a0a", borderColor: "#ff8800" },
-  { id: 35, name: "Level 35 - Final Stretch!", speed: 48, gridSize: 20, obstacles: [{x:4,y:4},{x:5,y:4},{x:6,y:4},{x:7,y:4},{x:8,y:4},{x:9,y:4},{x:10,y:4},{x:11,y:4},{x:12,y:4},{x:13,y:4},{x:14,y:4},{x:15,y:4},{x:4,y:5},{x:4,y:6},{x:4,y:7},{x:4,y:8},{x:4,y:9},{x:4,y:10},{x:4,y:11},{x:4,y:12},{x:4,y:13},{x:4,y:14},{x:4,y:15},{x:15,y:5},{x:15,y:6},{x:15,y:7},{x:15,y:8},{x:15,y:9},{x:15,y:10},{x:15,y:11},{x:15,y:12},{x:15,y:13},{x:15,y:14},{x:15,y:15}], targetScore: 23, foodEmoji: "👧", bgColor: "#1a0a2e", borderColor: "#aa00ff" },
-  { id: 36, name: "Level 36 - Death Valley", speed: 45, gridSize: 20, obstacles: [{x:3,y:3},{x:4,y:3},{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:8,y:3},{x:9,y:3},{x:10,y:3},{x:11,y:3},{x:12,y:3},{x:13,y:3},{x:14,y:3},{x:15,y:3},{x:16,y:3},{x:3,y:4},{x:3,y:5},{x:3,y:6},{x:3,y:7},{x:3,y:8},{x:3,y:9},{x:3,y:10},{x:3,y:11},{x:3,y:12},{x:3,y:13},{x:3,y:14},{x:3,y:15},{x:3,y:16},{x:16,y:4},{x:16,y:5},{x:16,y:6},{x:16,y:7},{x:16,y:8},{x:16,y:9},{x:16,y:10},{x:16,y:11},{x:16,y:12},{x:16,y:13},{x:16,y:14},{x:16,y:15},{x:16,y:16}], targetScore: 23, foodEmoji: "👧", bgColor: "#2e0a1a", borderColor: "#ff0066" },
-  { id: 37, name: "Level 37 - Apocalypse", speed: 42, gridSize: 20, obstacles: [{x:5,y:5},{x:6,y:5},{x:7,y:5},{x:8,y:5},{x:9,y:5},{x:10,y:5},{x:11,y:5},{x:12,y:5},{x:13,y:5},{x:14,y:5},{x:5,y:6},{x:5,y:7},{x:5,y:8},{x:5,y:9},{x:5,y:10},{x:5,y:11},{x:5,y:12},{x:5,y:13},{x:5,y:14},{x:14,y:6},{x:14,y:7},{x:14,y:8},{x:14,y:9},{x:14,y:10},{x:14,y:11},{x:14,y:12},{x:14,y:13},{x:14,y:14},{x:6,y:14},{x:7,y:14},{x:8,y:14},{x:9,y:14},{x:10,y:14},{x:11,y:14},{x:12,y:14},{x:13,y:14}], targetScore: 24, foodEmoji: "👧", bgColor: "#0a0a0a", borderColor: "#ff0000" },
-  { id: 38, name: "Level 38 - Last Stand", speed: 40, gridSize: 20, obstacles: [{x:2,y:2},{x:3,y:2},{x:4,y:2},{x:5,y:2},{x:6,y:2},{x:7,y:2},{x:8,y:2},{x:9,y:2},{x:10,y:2},{x:11,y:2},{x:12,y:2},{x:13,y:2},{x:14,y:2},{x:15,y:2},{x:16,y:2},{x:17,y:2},{x:2,y:3},{x:2,y:4},{x:2,y:5},{x:2,y:6},{x:2,y:7},{x:2,y:8},{x:2,y:9},{x:2,y:10},{x:2,y:11},{x:2,y:12},{x:2,y:13},{x:2,y:14},{x:2,y:15},{x:2,y:16},{x:2,y:17},{x:17,y:3},{x:17,y:4},{x:17,y:5},{x:17,y:6},{x:17,y:7},{x:17,y:8},{x:17,y:9},{x:17,y:10},{x:17,y:11},{x:17,y:12},{x:17,y:13},{x:17,y:14},{x:17,y:15},{x:17,y:16},{x:17,y:17},{x:3,y:17},{x:4,y:17},{x:5,y:17},{x:6,y:17},{x:7,y:17},{x:8,y:17},{x:9,y:17},{x:10,y:17},{x:11,y:17},{x:12,y:17},{x:13,y:17},{x:14,y:17},{x:15,y:17},{x:16,y:17}], targetScore: 24, foodEmoji: "👧", bgColor: "#1a0a0a", borderColor: "#ff0000" },
-  { id: 39, name: "Level 39 - Almost There!", speed: 38, gridSize: 20, obstacles: [{x:6,y:6},{x:7,y:6},{x:8,y:6},{x:9,y:6},{x:10,y:6},{x:11,y:6},{x:12,y:6},{x:13,y:6},{x:6,y:7},{x:6,y:8},{x:6,y:9},{x:6,y:10},{x:6,y:11},{x:6,y:12},{x:6,y:13},{x:13,y:7},{x:13,y:8},{x:13,y:9},{x:13,y:10},{x:13,y:11},{x:13,y:12},{x:13,y:13},{x:7,y:13},{x:8,y:13},{x:9,y:13},{x:10,y:13},{x:11,y:13},{x:12,y:13},{x:8,y:8},{x:9,y:8},{x:10,y:8},{x:11,y:8},{x:8,y:11},{x:9,y:11},{x:10,y:11},{x:11,y:11},{x:8,y:9},{x:8,y:10},{x:11,y:9},{x:11,y:10}], targetScore: 25, foodEmoji: "👧", bgColor: "#0a0a2e", borderColor: "#0044ff" },
-  { id: 40, name: "Level 40 - Final Boss!", speed: 35, gridSize: 20, obstacles: [{x:4,y:4},{x:5,y:4},{x:6,y:4},{x:7,y:4},{x:8,y:4},{x:9,y:4},{x:10,y:4},{x:11,y:4},{x:12,y:4},{x:13,y:4},{x:14,y:4},{x:15,y:4},{x:4,y:5},{x:4,y:6},{x:4,y:7},{x:4,y:8},{x:4,y:9},{x:4,y:10},{x:4,y:11},{x:4,y:12},{x:4,y:13},{x:4,y:14},{x:4,y:15},{x:15,y:5},{x:15,y:6},{x:15,y:7},{x:15,y:8},{x:15,y:9},{x:15,y:10},{x:15,y:11},{x:15,y:12},{x:15,y:13},{x:15,y:14},{x:15,y:15},{x:5,y:15},{x:6,y:15},{x:7,y:15},{x:8,y:15},{x:9,y:15},{x:10,y:15},{x:11,y:15},{x:12,y:15},{x:13,y:15},{x:14,y:15},{x:7,y:7},{x:8,y:7},{x:9,y:7},{x:10,y:7},{x:11,y:7},{x:12,y:7},{x:7,y:12},{x:8,y:12},{x:9,y:12},{x:10,y:12},{x:11,y:12},{x:12,y:12},{x:7,y:8},{x:7,y:9},{x:7,y:10},{x:7,y:11},{x:12,y:8},{x:12,y:9},{x:12,y:10},{x:12,y:11}], targetScore: 25, foodEmoji: "👧", bgColor: "#0a0a0a", borderColor: "#ff00ff" },
-  { id: 41, name: "Level 41 - ULTIMATE!", speed: 30, gridSize: 20, obstacles: [{x:3,y:3},{x:4,y:3},{x:5,y:3},{x:6,y:3},{x:7,y:3},{x:8,y:3},{x:9,y:3},{x:10,y:3},{x:11,y:3},{x:12,y:3},{x:13,y:3},{x:14,y:3},{x:15,y:3},{x:16,y:3},{x:3,y:4},{x:3,y:5},{x:3,y:6},{x:3,y:7},{x:3,y:8},{x:3,y:9},{x:3,y:10},{x:3,y:11},{x:3,y:12},{x:3,y:13},{x:3,y:14},{x:3,y:15},{x:3,y:16},{x:16,y:4},{x:16,y:5},{x:16,y:6},{x:16,y:7},{x:16,y:8},{x:16,y:9},{x:16,y:10},{x:16,y:11},{x:16,y:12},{x:16,y:13},{x:16,y:14},{x:16,y:15},{x:16,y:16},{x:4,y:16},{x:5,y:16},{x:6,y:16},{x:7,y:16},{x:8,y:16},{x:9,y:16},{x:10,y:16},{x:11,y:16},{x:12,y:16},{x:13,y:16},{x:14,y:16},{x:15,y:16},{x:6,y:6},{x:7,y:6},{x:8,y:6},{x:9,y:6},{x:10,y:6},{x:11,y:6},{x:12,y:6},{x:13,y:6},{x:6,y:7},{x:6,y:8},{x:6,y:9},{x:6,y:10},{x:6,y:11},{x:6,y:12},{x:6,y:13},{x:13,y:7},{x:13,y:8},{x:13,y:9},{x:13,y:10},{x:13,y:11},{x:13,y:12},{x:13,y:13},{x:7,y:13},{x:8,y:13},{x:9,y:13},{x:10,y:13},{x:11,y:13},{x:12,y:13},{x:8,y:8},{x:9,y:8},{x:10,y:8},{x:11,y:8},{x:8,y:11},{x:9,y:11},{x:10,y:11},{x:11,y:11},{x:8,y:9},{x:8,y:10},{x:11,y:9},{x:11,y:10}], targetScore: 30, foodEmoji: "👧", bgColor: "#000000", borderColor: "#ffffff" },
+export const BOARD_THEMES: BoardTheme[] = [
+  { id: 'classic', name: 'Classic Green', emoji: '🟩', bgGradient: 'linear-gradient(135deg, #0a1628 0%, #0d2137 100%)', gridColor: '#1a3a2a', borderColor: '#22c55e', accentColor: '#22c55e', unlockLevels: 0 },
+  { id: 'wooden', name: 'Wooden Board', emoji: '🪵', bgGradient: 'linear-gradient(135deg, #3e2723 0%, #5d4037 100%)', gridColor: '#4e342e', borderColor: '#8d6e63', accentColor: '#d7ccc8', unlockLevels: 3 },
+  { id: 'neon', name: 'Neon Cyber', emoji: '💜', bgGradient: 'linear-gradient(135deg, #0a0020 0%, #1a0040 100%)', gridColor: '#1a0040', borderColor: '#a855f7', accentColor: '#c084fc', unlockLevels: 6 },
+  { id: 'arcade', name: 'Dark Arcade', emoji: '🕹️', bgGradient: 'linear-gradient(135deg, #111111 0%, #1a1a2e 100%)', gridColor: '#222244', borderColor: '#e94560', accentColor: '#e94560', unlockLevels: 10 },
+  { id: 'garden', name: 'Nature Garden', emoji: '🌸', bgGradient: 'linear-gradient(135deg, #0a2e1a 0%, #1a4a2e 100%)', gridColor: '#1a3a2a', borderColor: '#4ade80', accentColor: '#86efac', unlockLevels: 14 },
+  { id: 'ice', name: 'Ice World', emoji: '🧊', bgGradient: 'linear-gradient(135deg, #0a1a3e 0%, #1a3a5e 100%)', gridColor: '#1a2a4e', borderColor: '#60a5fa', accentColor: '#93c5fd', unlockLevels: 18 },
+  { id: 'fire', name: 'Fire Arena', emoji: '🔥', bgGradient: 'linear-gradient(135deg, #2e0a0a 0%, #4a1a0a 100%)', gridColor: '#3a1a0a', borderColor: '#f97316', accentColor: '#fb923c', unlockLevels: 22 },
+  { id: 'royal', name: 'Royal Gold', emoji: '👑', bgGradient: 'linear-gradient(135deg, #1a1a0a 0%, #2e2a0a 100%)', gridColor: '#2a2a1a', borderColor: '#eab308', accentColor: '#fde047', unlockLevels: 28 },
+  { id: 'space', name: 'Space', emoji: '🌌', bgGradient: 'linear-gradient(135deg, #000011 0%, #0a0a2e 100%)', gridColor: '#0a0a3e', borderColor: '#6366f1', accentColor: '#818cf8', unlockLevels: 33 },
+  { id: 'celebration', name: 'Celebration', emoji: '🎉', bgGradient: 'linear-gradient(135deg, #1a0a2e 0%, #2e0a3e 100%)', gridColor: '#2a1a3e', borderColor: '#ec4899', accentColor: '#f472b6', unlockLevels: 38 },
+];
+
+function generateObstacles(level: number, gridSize: number): Position[] {
+  const obstacles: Position[] = [];
+  if (level < 4) return obstacles;
+  
+  const seed = level * 7;
+  const count = Math.min(Math.floor(level / 3) + 2, 30);
+  
+  for (let i = 0; i < count; i++) {
+    const hash = (seed + i * 13 + i * i * 3) % 997;
+    const x = (hash * 7 + i * 11) % gridSize;
+    const y = (hash * 11 + i * 7) % gridSize;
+    // Don't place obstacles in the center area where snake starts
+    if (Math.abs(x - gridSize / 2) < 3 && Math.abs(y - gridSize / 2) < 3) continue;
+    obstacles.push({ x, y });
+  }
+  
+  // Add structured patterns for certain levels
+  if (level >= 8 && level < 12) {
+    // Horizontal wall
+    for (let i = 4; i < gridSize - 4; i++) {
+      if (Math.abs(i - gridSize / 2) > 2) {
+        obstacles.push({ x: i, y: Math.floor(gridSize / 3) });
+      }
+    }
+  }
+  if (level >= 12 && level < 16) {
+    // Box pattern
+    const s = Math.floor(gridSize / 4);
+    for (let i = s; i < gridSize - s; i++) {
+      obstacles.push({ x: i, y: s });
+      obstacles.push({ x: i, y: gridSize - s - 1 });
+    }
+  }
+  if (level >= 20 && level < 25) {
+    // Cross pattern
+    const mid = Math.floor(gridSize / 2);
+    for (let i = 3; i < gridSize - 3; i++) {
+      if (Math.abs(i - mid) > 2) {
+        obstacles.push({ x: mid, y: i });
+        obstacles.push({ x: i, y: mid });
+      }
+    }
+  }
+  if (level >= 30 && level < 35) {
+    // Spiral hint
+    for (let i = 3; i < gridSize - 3; i++) {
+      obstacles.push({ x: i, y: 3 });
+      obstacles.push({ x: gridSize - 4, y: i });
+    }
+  }
+  if (level >= 38) {
+    // Dense maze
+    for (let i = 2; i < gridSize - 2; i += 4) {
+      for (let j = 2; j < gridSize - 2; j++) {
+        if (Math.abs(i - gridSize / 2) > 3 && Math.abs(j - gridSize / 2) > 3) {
+          obstacles.push({ x: i, y: j });
+        }
+      }
+    }
+  }
+  
+  return obstacles;
+}
+
+function getBoardThemeId(level: number): string {
+  if (level <= 3) return 'classic';
+  if (level <= 7) return 'wooden';
+  if (level <= 11) return 'neon';
+  if (level <= 15) return 'arcade';
+  if (level <= 19) return 'garden';
+  if (level <= 23) return 'ice';
+  if (level <= 27) return 'fire';
+  if (level <= 31) return 'royal';
+  if (level <= 36) return 'space';
+  return 'celebration';
+}
+
+const completionMessages = [
+  "Mahira, great start! 🌟",
+  "You're getting better, Mahira! 💪",
+  "Mahira, amazing skills! 🎯",
+  "Keep going, Mahira! 🚀",
+  "Mahira, you're on fire! 🔥",
+  "Incredible, Mahira! ⭐",
+  "Mahira, unstoppable! 💫",
+  "Mahira, what a player! 🏅",
+  "Mahira, legendary moves! 👑",
+  "Mahira, half way there! 🎉",
+  "Mahira, champion material! 🏆",
+  "MUZAMIL is proud of you, Mahira! 💖",
+];
+
+export const LEVELS: LevelConfig[] = [
+  // Default game (id: 0)
+  { id: 0, name: 'Default Game', gridSize: 20, baseSpeed: 180, targetScore: 10, obstacles: [], powerUpChance: 0.15, boardThemeId: 'classic', completionMessage: 'Default game complete! 🎮' },
+];
+
+// Generate 41 levels
+for (let i = 1; i <= 41; i++) {
+  const gridSize = 20;
+  const baseSpeed = Math.max(80, 200 - i * 2.8);
+  const targetScore = Math.min(5 + Math.floor(i * 0.8), 25);
+  const obstacles = generateObstacles(i, gridSize);
+  const powerUpChance = Math.min(0.05 + i * 0.008, 0.3);
+  const boardThemeId = getBoardThemeId(i);
+  const msgIdx = Math.min(Math.floor((i - 1) / 4), completionMessages.length - 1);
+  
+  LEVELS.push({
+    id: i,
+    name: i === 41 ? 'Level 41 — ULTIMATE' : `Level ${i}`,
+    gridSize,
+    baseSpeed,
+    targetScore,
+    obstacles,
+    powerUpChance,
+    boardThemeId,
+    completionMessage: completionMessages[msgIdx],
+  });
+}
+
+export const POWER_UP_TYPES: { type: PowerUp['type']; emoji: string; points: number; duration: number; label: string }[] = [
+  { type: 'speed', emoji: '⚡', points: 2, duration: 5000, label: 'Speed Boost!' },
+  { type: 'slow', emoji: '🐌', points: 1, duration: 5000, label: 'Slow Motion!' },
+  { type: 'golden', emoji: '💰', points: 5, duration: 0, label: 'Golden Food!' },
+  { type: 'shield', emoji: '🛡️', points: 1, duration: 8000, label: 'Shield Active!' },
 ];
