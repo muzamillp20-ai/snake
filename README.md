@@ -2,11 +2,11 @@
 
 > **A personalized snake game dedicated to Mahira Mansha, featuring MUZAMIL BHAIYA as the champion snake!**
 
-[![Deploy to GitHub Pages](https://github.com/muzamillp20-ai/mahira-mansha-snake-crash/actions/workflows/deploy.yml/badge.svg)](https://github.com/muzamillp20-ai/mahira-mansha-snake-crash/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/muzamillp20-ai/snake/actions/workflows/deploy.yml/badge.svg)](https://github.com/muzamillp20-ai/snake/actions/workflows/deploy.yml)
 
 ## 🎮 Play Now
 
-**👉 [Play the live game here!](https://muzamillp20-ai.github.io/mahira-mansha-snake-crash/)**
+**👉 [Play the live game here!](https://muzamillp20-ai.github.io/snake/)**
 
 ---
 
@@ -127,7 +127,7 @@ npm run build
 ## 📁 Project Structure
 
 ```
-mahira-mansha-snake-crash/
+snake/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # GitHub Actions CI/CD
