@@ -116,59 +116,6 @@ This project uses **GitHub Actions** for automated CI/CD deployment to GitHub Pa
 4. Build artifacts are uploaded
 5. GitHub Pages deploys the site automatically
 
-### Manual deployment:
-```bash
-npm run build
-# Upload the dist/ folder to GitHub Pages
-```
-
----
-
-## 📁 Project Structure
-
-```
-snake/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          # GitHub Actions CI/CD
-├── src/
-│   ├── components/
-│   │   ├── GameBoard.tsx       # Canvas-based game renderer
-│   │   ├── HomeScreen.tsx      # Main menu
-│   │   ├── Menus.tsx           # Level/Snake/Board/Settings menus
-│   │   └── Screens.tsx         # Game Over / Victory screens
-│   ├── hooks/
-│   │   ├── useGameEngine.ts    # Core game logic
-│   │   ├── useSound.ts         # Audio system
-│   │   └── useStorage.ts       # localStorage persistence
-│   ├── App.tsx                 # Main app component
-│   ├── gameData.ts             # 41 levels, snakes, boards config
-│   ├── index.css               # Global styles & animations
-│   └── main.tsx                # Entry point
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
-```
-
----
-
-## 🎮 Game Rules
-
-1. Guide **MUZAMIL** the snake to eat **MAHIRA** 👧
-2. Each food item makes the snake grow longer
-3. **Don't touch yourself** — self-collision = game over
-4. **Borders wrap around** — go through walls safely!
-5. Collect power-ups for special abilities
-6. Reach the target score to complete each level
-7. Complete all 41 levels for the ultimate victory!
-
----
-
-## 📄 License
-
-This project is open source and available for personal and educational use.
-
 ---
 
 ## 💖 Credits

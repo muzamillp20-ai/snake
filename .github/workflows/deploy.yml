@@ -1,6 +1,6 @@
-# GitHub Actions workflow for Mahira Mansha Snake Crash
-# Repository: https://github.com/muzamillp20-ai/snake
-# Expected URL: https://muzamillp20-ai.github.io/snake/
+# Mahira Mansha Snake Crash — GitHub Pages Deployment
+# Repository: muzamillp20-ai/snake
+# URL: https://muzamillp20-ai.github.io/snake/
 
 name: Deploy to GitHub Pages
 
@@ -28,10 +28,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Install dependencies
         run: npm install
@@ -42,36 +42,24 @@ jobs:
       - name: Verify build output
         run: |
           if [ ! -f "./dist/index.html" ]; then
-            echo "❌ ERROR: dist/index.html not found after build!"
+            echo "ERROR: dist/index.html not found after build!"
             ls -la dist/ || echo "dist/ directory does not exist"
             exit 1
           fi
-          echo "✅ Build output verified: dist/index.html exists"
-          echo "📦 Build contents:"
+          echo "Build output verified: dist/index.html exists"
+          echo "Build contents:"
           ls -la dist/
           echo ""
-          echo "📄 Checking index.html for correct base path..."
+          echo "Checking index.html for correct base path..."
           if grep -q "/snake/" dist/index.html; then
-            echo "✅ Base path /snake/ found in index.html"
+            echo "Base path /snake/ found in index.html"
           else
-            echo "⚠️  Warning: Base path /snake/ not found in index.html"
+            echo "WARNING: Base path /snake/ not found in index.html"
           fi
-
-      - name: Check Pages configuration
-        if: github.event_name != 'pull_request'
-        run: |
-          echo "🔍 Checking if GitHub Pages is configured..."
-          echo ""
-          echo "⚠️  IMPORTANT: If this step fails, you need to:"
-          echo "1. Go to https://github.com/muzamillp20-ai/snake/settings/pages"
-          echo "2. Under 'Build and deployment', set Source to: GitHub Actions"
-          echo "3. Save the setting"
-          echo "4. Re-run this workflow"
-          echo ""
 
       - name: Setup Pages
         if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         if: github.event_name != 'pull_request'
